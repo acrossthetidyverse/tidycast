@@ -1,7 +1,7 @@
 tidypacks <- 
 c("tidyverse/broom,",
   "hadley/dplyr,",
-  "hadley/feather,",
+  "wesm/feather,",
   "tidyverse/forcats,",
   "hadley/ggplot2,",
   "tidyverse/haven,",
