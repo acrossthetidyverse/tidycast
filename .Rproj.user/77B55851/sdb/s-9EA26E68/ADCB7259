@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "tidypacks <- \nc(\"tidyverse/broom,\",\n  \"hadley/dplyr,\",\n  \"hadley/feather,\",\n  \"tidyverse/forcats,\",\n  \"hadley/ggplot2,\",\n  \"tidyverse/haven,\",\n  \"hadley/httr,\",\n  \"rstats-db/hms,\",\n  \"jeroenooms/jsonlite,\",\n  \"hadley/lubridate,\",\n  \"tidyverse/magrittr,\",\n  \"hadley/modelr,\",\n  \"hadley/purrr,\",\n  \"tidyverse/readr,\",\n  \"hadley/readxl,\",\n  \"tidyverse/stringr,\",\n  \"tidyverse/tibble,\",\n  \"hadley/rvest,\",\n  \"tidyverse/tidyr,\",\n  \"hadley/xml2\")\n",
+    "created" : 1484223958131.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3576367362",
+    "id" : "ADCB7259",
+    "lastKnownWriteTime" : 1484226052,
+    "last_content_update" : 1484226052320,
+    "path" : "~/repos/tidycast/packages_list.R",
+    "project_path" : "packages_list.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
