@@ -1,11 +1,7 @@
 library("gh")
 library("lubridate")
-library("ggplot2")
-library("viridis")
 library("dplyr")
 library("tidyr")
-library("viridis")
-library("janitor")
 
 ############################################################
 #                                                          #
@@ -56,6 +52,13 @@ astronaut <- function(packlink){
         summarize_(n_stars = ~n()) 
     star_table <- mutate_(star_table, package = ~packlink)
 }
+
+############################################################
+#                                                          #
+#                    get and save stars                    #
+#                                                          #
+############################################################
+
 
 allstars <- tidypacks %>%
     purrr::map(astronaut)
