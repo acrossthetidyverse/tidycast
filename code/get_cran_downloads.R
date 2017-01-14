@@ -1,7 +1,6 @@
 library("cranlogs")
 library("lubridate")
 library("dplyr")
-library("tidyr")
 
 ############################################################
 #                                                          #

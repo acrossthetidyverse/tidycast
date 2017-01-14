@@ -1,7 +1,7 @@
 library("gh")
 library("lubridate")
 library("dplyr")
-library("tidyr")
+library("purrr")
 
 ############################################################
 #                                                          #
@@ -60,8 +60,7 @@ astronaut <- function(packlink){
 ############################################################
 
 
-allstars <- tidypacks %>%
-    purrr::map(astronaut)
+allstars <- map(tidypacks, astronaut)
 allstars <- bind_rows(allstars)
 
 readr::write_csv(allstars, path = "data/tidyverse_gh_stars.csv")
