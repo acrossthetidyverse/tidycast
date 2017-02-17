@@ -1,0 +1,73 @@
+---
+title: "Plotting the data"
+author: "M. Salmon"
+date: "February 17, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+library("tidyr")
+library("dplyr")
+library("ggplot2")
+library("viridis")
+cran <- readr::read_csv("data/tidyverse_cran_downloads.csv")
+gh <- readr::read_csv("data/tidyverse_gh_stars.csv")
+gh <- purrr::by_row(gh, function(x){
+    stringr::str_split(x$package, "\\/", simplify = TRUE)[2]
+}, .collate = "cols") %>%
+    select(- package) %>%
+    rename( package = .out)
+
+everydaypacks <- c("ggplot2", "dplyr",
+                   "tidyr", "readr", 
+                   "purrr", "tibble")
+ 
+cran <- filter(cran, package %in% everydaypacks)
+gh <- filter(gh, package %in% everydaypacks)
+```
+
+
+```{r transform data}
+gh <- gh %>%
+    group_by(package) %>%
+    mutate(time = as.numeric(difftime(date, min(date), units = "days"))) %>%
+    arrange(time) %>%
+    mutate(stars = cumsum(n_stars))
+
+cran <- cran %>%
+    group_by(package) %>%
+    mutate(firstday = min(which(count != 0))) %>%
+    filter(date >= date[firstday]) %>%
+    select(- firstday) %>%
+    mutate(time = as.numeric(difftime(date, min(date), units = "days"))) %>%
+    arrange(time) %>%
+    mutate(downloads = cumsum(count))
+
+```
+
+
+```{r plot stars}
+ggplot(gh) +
+    geom_line(aes(time, stars, col = package)) +
+    scale_color_viridis(discrete = TRUE) 
+
+```
+
+
+```{r plot cran}
+ggplot(cran) +
+    geom_line(aes(time, downloads, col = package)) +
+    scale_color_viridis(discrete = TRUE) 
+
+```
+
+But also more downloads from packages...
+```{r plot cran2}
+ggplot(cran) +
+    geom_smooth(aes(time, prop, col = package)) +
+    scale_color_viridis(discrete = TRUE) 
+
+```
