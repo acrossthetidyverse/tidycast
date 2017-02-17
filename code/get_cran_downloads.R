@@ -35,9 +35,15 @@ crandl <- cran_downloads(tidypacks,
                          from = min_date,
                          to = as.character(Sys.Date()))
 
-crandl <- cran_downloads(NULL, 
+alls <- cran_downloads(NULL, 
                          from = min_date,
                          to = as.character(Sys.Date())) %>%
-    bind_rows(crandl)
+    select(date, count) %>%
+    rename(total_count = count)
+
+crandl <- left_join(crandl, alls, by = "date")
+crandl <- mutate(crandl, prop = count/total_count)
+
+
 
 readr::write_csv(crandl, path = "data/tidyverse_cran_downloads.csv")
