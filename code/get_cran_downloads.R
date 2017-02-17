@@ -25,6 +25,7 @@ tidypacks <- lapply(tidypacks, strsplit, "\\/")
 tidypacks <- lapply(tidypacks, "[[", 1)
 tidypacks <- lapply(tidypacks, "[", 2)
 tidypacks <- unlist(tidypacks)
+tidypacks <- c(tidypacks)
 ############################################################
 #                                                          #
 #                    get CRAN downloads                    #
@@ -33,5 +34,10 @@ tidypacks <- unlist(tidypacks)
 crandl <- cran_downloads(tidypacks, 
                          from = min_date,
                          to = as.character(Sys.Date()))
+
+crandl <- cran_downloads(NULL, 
+                         from = min_date,
+                         to = as.character(Sys.Date())) %>%
+    bind_rows(crandl)
 
 readr::write_csv(crandl, path = "data/tidyverse_cran_downloads.csv")
