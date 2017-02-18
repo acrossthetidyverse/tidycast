@@ -4,6 +4,7 @@ library(igraph)
 library(tidyverse)
 library(forcats)
 library(ggraph)
+library(ggrepel)
 source("./code/packages_list.R")
 
 tidypacks_df <- 
@@ -24,14 +25,31 @@ tidy_revdep_count <-
 names(tidy_revdep_count) <- tidypacks_df$package
 
 #plot depenency distribution
-as_tibble(tidy_revdep_count) %>%
-    gather(key = "package", value = "dependencies", matches("*")) %>%
+tidy_revdep_count_df <- 
+    tidy_revdep_count %>%
+    as_tibble() %>%
+    gather(key = "package", value = "dependencies", matches("*"))
+
+tidy_revdep_count_df %>%    
     ggplot( aes( x = fct_reorder(factor(package), dependencies, .desc = TRUE),
                  y = dependencies)) +
         xlab("package") +
         ylab("Number of CRAN dependencies") +
         geom_bar(stat = "identity") +
         theme_minimal()
+
+#CRAN depenencies vs github stars
+tidy_stars <- read_csv("./data/tidyverse_gh_stars.csv")
+tidy_stars %>% 
+    group_by(package) %>%
+    summarise(n_stars = sum(n_stars)) %>%
+    separate(package, into = c("user","package"), sep = "/") %>%
+    left_join(tidy_revdep_count_df) %>%
+    ggplot(aes(x = n_stars, y = dependencies)) +
+        geom_point() +
+        geom_text_repel(aes(label = package)) +
+        theme_minimal() +
+        geom_abline(slope = 1)
 
 #How do dependencies flow within the tidyverse?
 tidy_deps <- map(tidypacks_df$package, package_deps)
